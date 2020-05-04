@@ -1,4 +1,4 @@
-service: visual-data-aws-python-rest-api-with-dynamodb
+service: vd-aws-python-rest-api-with-dynamodb
 
 frameworkVersion: ">=1.1.0 <2.0.0"
 
@@ -20,58 +20,58 @@ provider:
 
 functions:
   create:
-    handler: visual-data/create.create
+    handler: vd/create.create
     events:
       - http:
-          path: visual-data
+          path: vd
           method: post
           cors: true
 
   list:
-    handler: visual-data/list.list
+    handler: vd/list.list
     events:
       - http:
-          path: visual-data
+          path: vd
           method: get
           cors: true
 
   get:
-    handler: visual-data/get.get
+    handler: vd/get.get
     events:
       - http:
-          path: visual-data/{id}
+          path: vd/{id}
           method: get
           cors: true
 
   update:
-    handler: visual-data/update.update
+    handler: vd/update.update
     events:
       - http:
-          path: visual-data/{id}
+          path: vd/{id}
           method: put
           cors: true
 
   delete:
-    handler: visual-data/delete.delete
+    handler: vd/delete.delete
     events:
       - http:
-          path: visual-data/{id}
+          path: vd/{id}
           method: delete
           cors: true
 
 resources:
   Resources:
-    visual-dataDynamoDbTable:
+    vdDynamoDbTable:
       Type: 'AWS::DynamoDB::Table'
       DeletionPolicy: Retain
       Properties:
         AttributeDefinitions:
           -
-            AttributeName: id
+            AttributeName: date
             AttributeType: S
         KeySchema:
           -
-            AttributeName: id
+            AttributeName: date
             KeyType: HASH
         ProvisionedThroughput:
           ReadCapacityUnits: 1
