@@ -7,25 +7,45 @@ import { fetchData } from './api';
 
 class App extends React.Component {
   state = {
-    data: {},
+    county: 'Norge',
+    data: [],
+    counties: ['Norge', 'Agder', 'Innlandet', 'Møre og Romsdal', 'Nordland', 'Oslo', 'Rogaland', 
+    'Troms og Finnmark', 'Trøndelag', 'Vestfold og Telemark', 'Vestland', 'Viken']
   }
 
   async componentDidMount() {
     const fetchedData = await fetchData();
 
+    console.log('fetchedData!')
     console.log(fetchedData);
+    var today = new Date();
+    var tempData = fetchedData.filter(dataSet => dataSet.location !== 'X');
+    this.setState({ 
+      data:       tempData.sort((a, b) => a.date.localeCompare(b.date) - b.date.localeCompare(a.date) ),
+      lastSunday: new Date(today.setDate(today.getDate() - (today.getDay() || 7))),
+    });
+  }
 
-    this.setState({ data: fetchedData });
+  handleCountyChange = async (county) => {
+    console.log(county);
+
+    this.setState({ county: county });
   }
 
   render() {
-    const { data } = this.state;
+    const { 
+      county, data, counties, lastSunday 
+    } = this.state;
 
+    
+
+    console.log(county);
     return (
       <div className={styles.container}>
-        <Cards data={data} />
-        <CountyPicker />
-        <Chart />
+        <CountyPicker handleCountyChange={this.handleCountyChange} counties={counties} />
+        <Cards data={ {data} } county={county} lastSunday={lastSunday} />
+        <Chart data={{data} } county={county} counties={counties} lastSunday={lastSunday}
+          />
       </div>
     );
   }

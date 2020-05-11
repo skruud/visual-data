@@ -1,12 +1,13 @@
 import axios from 'axios';
 
-const url = 'https://www.finn.no/api/search?vertical=job&subvertical=fulltime&extension=&filters=#';
+const url = 'https://8syg62n83a.execute-api.eu-north-1.amazonaws.com/dev/vd';
 
 export const fetchData = async () => {
   try {
-    const { data: {objectCount, filterWidgets } } = await axios.get(url);
+    const { data } = await axios.get(url);
+    console.log('fetchData!')
 
-    return {objectCount, filterWidgets};
+    return data;
   } catch (error) {
 
   }

@@ -1,8 +1,16 @@
 import React from 'react';
+import { NativeSelect, FormControl } from '@material-ui/core';
 
-const CountyPicker = () => {
+import styles from './CountyPicker.module.css';
+
+const CountyPicker = ({ handleCountyChange, counties }) => {
+  
   return (
-    <h1>CountyPicker</h1>
+    <FormControl className={styles.formControl}>
+      <NativeSelect defaultValue="" onChange={(e) => handleCountyChange(e.target.value)}>
+        {counties.map((county, i) => <option key={i} value={county}> {county} </option>)}
+      </NativeSelect>
+    </FormControl>
   )
 }
 
