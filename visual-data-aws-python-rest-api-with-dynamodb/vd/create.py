@@ -53,7 +53,7 @@ def create(event2, context):
         industries = event['filterWidgets'][3]['root']['children']
         industryDict = {}
         for i in range(0, len(industries)):
-            industryDict.update( {industries[i]['label']: int(industries[i]['hitCount'])} )
+            industryDict.update( {industries[i]['label']: int(industries[i]['hitCount'].replace(u'\xa0', "") )} )
             
         durations = event['filterWidgets'][6]['root']['children']
         durationDict = {}
