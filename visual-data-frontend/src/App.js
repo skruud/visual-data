@@ -50,9 +50,11 @@ class App extends React.Component {
     console.log(county);
     return (
       <div className={styles.container}>
-        <CountyPicker handleCountyChange={this.handleCountyChange} counties={counties} />
         <Cards data={ {data} } county={county} lastSunday={lastSunday} />
-        <PlotPicker handlePlotChange={this.handlePlotChange} plots={plots} />
+        <div>
+          <CountyPicker handleCountyChange={this.handleCountyChange} counties={counties} /> 
+          <PlotPicker handlePlotChange={this.handlePlotChange} plots={plots} />
+        </div>
         <Chart data={{data} } county={county} counties={counties} lastSunday={lastSunday} plot={plot}
           />
       </div>

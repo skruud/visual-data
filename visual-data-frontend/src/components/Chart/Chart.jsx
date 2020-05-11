@@ -91,6 +91,8 @@ const Chart = ( {data: {data}, county, counties, lastSunday, plot} ) => {
           
         }
         options={{
+          maintainAspectRatio: false,
+          responsive: true,
           scales: {
             xAxes: [{
               type: 'time',
@@ -118,6 +120,8 @@ const Chart = ( {data: {data}, county, counties, lastSunday, plot} ) => {
             }]
           }}
           options={{
+            maintainAspectRatio: false,
+            responsive: true,
             legend: { display: false },
             title:  {display: true, text: 'Antall annonser per 100 000 innbygger'},
             scales: {
