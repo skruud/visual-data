@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 
-import { Cards, Chart, CountyPicker } from './components';
+import { Cards, Chart, CountyPicker, PlotPicker } from './components';
 import styles from './App.module.css';
 import { fetchData } from './api';
 
@@ -10,7 +10,9 @@ class App extends React.Component {
     county: 'Norge',
     data: [],
     counties: ['Norge', 'Agder', 'Innlandet', 'Møre og Romsdal', 'Nordland', 'Oslo', 'Rogaland', 
-    'Troms og Finnmark', 'Trøndelag', 'Vestfold og Telemark', 'Vestland', 'Viken']
+    'Troms og Finnmark', 'Trøndelag', 'Vestfold og Telemark', 'Vestland', 'Viken'],
+    plot: 'Linjediagram',
+    plots: ['Linjediagram', 'Søylediagram']
   }
 
   async componentDidMount() {
@@ -26,6 +28,12 @@ class App extends React.Component {
     });
   }
 
+  handlePlotChange = async (plot) => {
+    console.log(plot);
+
+    this.setState({ plot: plot });
+  }
+
   handleCountyChange = async (county) => {
     console.log(county);
 
@@ -34,7 +42,7 @@ class App extends React.Component {
 
   render() {
     const { 
-      county, data, counties, lastSunday 
+      county, data, counties, lastSunday, plots, plot
     } = this.state;
 
     
@@ -44,7 +52,8 @@ class App extends React.Component {
       <div className={styles.container}>
         <CountyPicker handleCountyChange={this.handleCountyChange} counties={counties} />
         <Cards data={ {data} } county={county} lastSunday={lastSunday} />
-        <Chart data={{data} } county={county} counties={counties} lastSunday={lastSunday}
+        <PlotPicker handlePlotChange={this.handlePlotChange} plots={plots} />
+        <Chart data={{data} } county={county} counties={counties} lastSunday={lastSunday} plot={plot}
           />
       </div>
     );

@@ -3,7 +3,7 @@ import { Line, Bar } from 'react-chartjs-2';
 
 import styles from './Chart.module.css';
 
-const Chart = ( {data: {data}, county, counties, lastSunday} ) => {
+const Chart = ( {data: {data}, county, counties, lastSunday, plot} ) => {
   var usedData = data.filter(dataSet => dataSet.location === county);
   var allLatestData = data.filter(dataSet => dataSet.date.substring(0, 10) ===  lastSunday.toISOString().substring(0, 10)  );
   allLatestData = allLatestData.filter(dataSet => dataSet.location !== 'Norge'  );
@@ -134,12 +134,16 @@ const Chart = ( {data: {data}, county, counties, lastSunday} ) => {
         />
       ) : null
   );
-
+  console.log(plot)
   return (
-    <div className={styles.container}>
-      {lineChart}
-      <br/>
-      {barChart}
+    <div className={styles.container}> 
+      {
+      (plot === 'Linjediagram') 
+        ? (
+          lineChart
+        ) : barChart
+
+      }
   </div>
   )
 }
