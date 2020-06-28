@@ -45,7 +45,7 @@ const Cards = (  {data: {data}, county, lastSunday} ) => {
           <CardContent>
             <Typography color="textSecondary" gutterBottom> Endring fra forrige uke  </Typography>
             <Typography variant="h5">
-              { (changeFromLastWeek<0 ? '-' : '+') }
+              { (changeFromLastWeek<0 ? '' : '+') }
               <CountUp start={0} end={changeFromLastWeek} duration={2.5} separator="," />%
             </Typography>
             <Typography color="textSecondary">{ lastSunday.toDateString() }</Typography>
