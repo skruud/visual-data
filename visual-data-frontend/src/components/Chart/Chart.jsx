@@ -3,22 +3,21 @@ import { Line, Bar } from 'react-chartjs-2';
 
 import styles from './Chart.module.css';
 
-const Chart = ( {data: {data}, county, counties, lastSunday, plot} ) => {
+const Chart = ( {data: {data}, county, counties, lastSunday, plot, occupation, dataValue} ) => {
   var usedData = data.filter(dataSet => dataSet.location === county);
   var allLatestData = data.filter(dataSet => dataSet.date.substring(0, 10) ===  lastSunday.toISOString().substring(0, 10)  );
   allLatestData = allLatestData.filter(dataSet => dataSet.location !== 'Norge'  );
 
   var population = [307231, 371385, 265238, 241235, 693494, 479892, 243311, 468702, 419396, 636531, 1241165];
 
-  console.log( 'Chart!' );
-  var allLatestAds = allLatestData.map(({ totalAds }) => totalAds);
-  console.log( allLatestAds );
+  const colors= ['aqua', 'black', 'blue', 'fuchsia', 'gray', 'green', 
+    'lime', 'maroon', 'navy', 'olive', 'orange', 'purple', 'red', 
+    'silver', 'teal', 'white', 'yellow'];
 
-  for (var i = 0; i <  population.length; i++) {
-      allLatestAds[i] = Math.round((allLatestAds[i])*100000 / population[i]) ;
-  }
 
-  console.log( allLatestAds );
+  var testtest = datasetsFunction();
+  console.log('THIS:');
+  console.log(testtest);
 
   const lineChart = (
     usedData.length
@@ -26,69 +25,8 @@ const Chart = ( {data: {data}, county, counties, lastSunday, plot} ) => {
         <Line 
           data={{
             labels: usedData.map(({ date }) => date.substring(0, 10)),
-            datasets: [{
-              data: data.filter(dataSet => dataSet.location === 'Agder'  ).map(({ totalAds }) => totalAds),
-              label: 'Agder',
-              borderColor: '#3333ff',
-              fill: false,
-            }, {
-              data: data.filter(dataSet => dataSet.location === 'Innlandet'  ).map(({ totalAds }) => totalAds),
-              label: 'Innlandet',
-              borderColor: '#3393ff',
-              fill: false,
-            }, {
-              data: data.filter(dataSet => dataSet.location === 'Møre og Romsdal'  ).map(({ totalAds }) => totalAds),
-              label: 'Møre og Romsdal',
-              borderColor: '#33f3ff',
-              fill: false,
-            }, {
-              data: data.filter(dataSet => dataSet.location === 'Nordland'  ).map(({ totalAds }) => totalAds),
-              label: 'Nordland',
-              borderColor: '#33334f',
-              fill: false,
-            }, {
-              data: data.filter(dataSet => dataSet.location === 'Oslo'  ).map(({ totalAds }) => totalAds),
-              label: 'Oslo',
-              borderColor: 'DarkOliveGreen',
-              fill: false,
-            }, {
-              data: data.filter(dataSet => dataSet.location === 'Rogaland'  ).map(({ totalAds }) => totalAds),
-              label: 'Rogaland',
-              borderColor: 'DarkOrange',
-              fill: false,
-            }, {
-              data: data.filter(dataSet => dataSet.location === 'Troms og Finnmark'  ).map(({ totalAds }) => totalAds),
-              label: 'Troms og Finnmark',
-              borderColor: 'DarkCyan',
-              fill: false,
-            }, {
-              data: data.filter(dataSet => dataSet.location === 'Trøndelag'  ).map(({ totalAds }) => totalAds),
-              label: 'Trøndelag',
-              borderColor: '#f333ff',
-              fill: false,
-            }, {
-              data: data.filter(dataSet => dataSet.location === 'Vestfold og Telemark'  ).map(({ totalAds }) => totalAds),
-              label: 'Vestfold og Telemark',
-              borderColor: '#ff0000',
-              fill: false,
-            }, {
-              data: data.filter(dataSet => dataSet.location === 'Vestland'  ).map(({ totalAds }) => totalAds),
-              label: 'Vestland',
-              borderColor: 'DarkGoldenRod',
-              fill: false,
-            }, {
-              data: data.filter(dataSet => dataSet.location === 'Viken'  ).map(({ totalAds }) => totalAds),
-              label: 'Viken',
-              borderColor: 'Chartreuse',
-              fill: false,
-            }
-          
-          ], 
-            
-            
+            datasets: datasetsFunction()
           }
-          
-          
         }
         options={{
           maintainAspectRatio: false,
@@ -116,14 +54,14 @@ const Chart = ( {data: {data}, county, counties, lastSunday, plot} ) => {
             datasets: [{
               label: 'Stillingsannonser',
               backgroundColor: 'black',
-              data: allLatestAds,
+              data: dataBarFunction(data),
             }]
           }}
           options={{
             maintainAspectRatio: false,
             responsive: true,
             legend: { display: false },
-            title:  {display: true, text: 'Antall annonser per 100 000 innbygger'},
+            title:  { display: true, text: 'Antall annonser per 1M innbyggere' },
             scales: {
               yAxes: [{
                 ticks: {
@@ -138,15 +76,69 @@ const Chart = ( {data: {data}, county, counties, lastSunday, plot} ) => {
         />
       ) : null
   );
-  console.log(plot)
+
+  function chartFunction(type) {
+    if (type === 'Linjediagram') return lineChart;
+    if (type === 'Søylediagram') return barChart;
+  }
+
+  function occupationFunction(variable) {
+    return variable[ occupation ];
+  }
+
+  function datasetsFunction() {
+    var datasets = [];
+    for (county of counties) {
+      if (county !== 'Norge') datasets.push(datasetFunction(county));
+      
+    }
+    return datasets;
+    
+  }
+
+  function datasetFunction(county) {
+    var tempData = dataFunction(county);
+    if (dataValue === 'Annonser per innbygger') {
+      for (var i = 0; i < tempData.length; i++) {
+        tempData[i] *= 1000000;
+        tempData[i] /= population[counties.indexOf(county) - 1];
+        tempData[i] = Math.round(tempData[i]);
+      }
+    }
+    return {
+      data: tempData,
+      label: county,
+      borderColor: colors[counties.indexOf(county)],
+      fill: false,
+    }
+  }
+
+  function dataFunction(county) {
+    if (occupation === 'Alle yrker') return data.filter(dataset => dataset.location === county  ).map(({ totalAds }) => totalAds);
+    else return data.filter(dataset => dataset.location === county  ).map(({ occupation }) => occupationFunction(occupation));
+  }
+
+  function dataBarFunction(data) {
+    var allLatestData = data.filter(dataSet => dataSet.date.substring(0, 10) ===  lastSunday.toISOString().substring(0, 10)  );
+    allLatestData = allLatestData.filter(dataSet => dataSet.location !== 'Norge'  );
+
+    var allLatestAds;
+    if (occupation === 'Alle yrker') allLatestAds = allLatestData.map(({ totalAds }) => totalAds);
+    else allLatestAds = allLatestData.map(({ occupation }) => occupationFunction(occupation));
+    
+    if (dataValue === 'Annonser per innbygger') {
+      for (var i = 0; i <  population.length; i++) {
+        allLatestAds[i] = Math.round((allLatestAds[i]) * 1000000 /  population[i]   ) ;
+      }
+    }
+
+    return allLatestAds;
+  }
+  
   return (
     <div className={styles.container}> 
       {
-      (plot === 'Linjediagram') 
-        ? (
-          lineChart
-        ) : barChart
-
+        chartFunction(plot)
       }
   </div>
   )

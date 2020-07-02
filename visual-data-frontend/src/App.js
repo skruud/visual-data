@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 
-import { Cards, Chart, CountyPicker, PlotPicker } from './components';
+import { Cards, Chart, CountyPicker, PlotPicker, OccupationPicker, DataValuePicker } from './components';
 import styles from './App.module.css';
 import { fetchData } from './api';
 
@@ -12,7 +12,12 @@ class App extends React.Component {
     counties: ['Norge', 'Agder', 'Innlandet', 'Møre og Romsdal', 'Nordland', 'Oslo', 'Rogaland', 
     'Troms og Finnmark', 'Trøndelag', 'Vestfold og Telemark', 'Vestland', 'Viken'],
     plot: 'Linjediagram',
-    plots: ['Linjediagram', 'Søylediagram']
+    plots: ['Linjediagram', 'Søylediagram'],
+    occupation: 'Alle yrker',
+    occupations: ['Alle yrker', 'Butikkansatt', 'Helsepersonell', 'HR, personal og rekruttering', 'Håndverker', 'IT utvikling', 'Ingeniør', 'Kundeservice', 'Lege', 'Mat og servering', 'Sykepleier', 'Undervisning og pedagogikk', 'Økonomi og regnskap'],
+    dataValue: 'Annonser',
+    dataValues: ['Annonser', 'Annonser per innbygger']
+
   }
 
   async componentDidMount() {
@@ -40,9 +45,21 @@ class App extends React.Component {
     this.setState({ county: county });
   }
 
+  handleOccupationChange = async (occupation) => {
+    console.log(occupation);
+
+    this.setState({ occupation: occupation });
+  }
+
+  handleDataValueChange = async (dataValue) => {
+    console.log(dataValue);
+
+    this.setState({ dataValue: dataValue });
+  }
+
   render() {
     const { 
-      county, data, counties, lastSunday, plots, plot
+      county, data, counties, lastSunday, plots, plot, occupations, occupation, dataValues, dataValue
     } = this.state;
 
     
@@ -50,12 +67,15 @@ class App extends React.Component {
     console.log(county);
     return (
       <div className={styles.container}>
+        <CountyPicker handleCountyChange={this.handleCountyChange} counties={counties} /> 
         <Cards data={ {data} } county={county} lastSunday={lastSunday} />
         <div>
-          <CountyPicker handleCountyChange={this.handleCountyChange} counties={counties} /> 
           <PlotPicker handlePlotChange={this.handlePlotChange} plots={plots} />
+          <OccupationPicker handleOccupationChange={this.handleOccupationChange} occupations={occupations} />
+          <DataValuePicker handleDataValueChange={this.handleDataValueChange} dataValues={dataValues} />
         </div>
-        <Chart data={{data} } county={county} counties={counties} lastSunday={lastSunday} plot={plot}
+        <Chart data={{data} } county={county} counties={counties} lastSunday={lastSunday} 
+          plot={plot} occupation={occupation} dataValue={dataValue}
           />
       </div>
     );
