@@ -37,7 +37,7 @@ const Cards = (  {data: {data}, county, lastSunday} ) => {
             <Typography variant="h5">
               <CountUp start={0} end={usedData[usedData.length -1].totalAds} duration={2.5} separator="," />
             </Typography>
-            <Typography color="textSecondary"> { lastSunday.toDateString() } </Typography>
+            <Typography color="textSecondary"> { lastSunday.toLocaleDateString() } </Typography>
             <Typography variant="body2"> {latestData.location} </Typography>
           </CardContent>
         </Grid>
@@ -48,7 +48,7 @@ const Cards = (  {data: {data}, county, lastSunday} ) => {
               { (changeFromLastWeek<0 ? '' : '+') }
               <CountUp start={0} end={changeFromLastWeek} duration={2.5} separator="," />%
             </Typography>
-            <Typography color="textSecondary">{ lastSunday.toDateString() }</Typography>
+            <Typography color="textSecondary">{ lastSunday.toLocaleDateString() }</Typography>
             <Typography variant="body2"> {latestData.location} </Typography>
           </CardContent>
         </Grid>
@@ -59,7 +59,7 @@ const Cards = (  {data: {data}, county, lastSunday} ) => {
               <CountUp start={0} end={Math.round((usedData[usedData.length -1].sector.Offentlig)/(usedData[usedData.length -1].totalAds)*100)} duration={2.5} separator="," />
               { '%' }
             </Typography>
-            <Typography color="textSecondary"> { lastSunday.toDateString() } </Typography>
+            <Typography color="textSecondary"> { lastSunday.toLocaleDateString() } </Typography>
             <Typography variant="body2"> {latestData.location} </Typography>
           </CardContent>
         </Grid>
@@ -70,7 +70,7 @@ const Cards = (  {data: {data}, county, lastSunday} ) => {
               <CountUp start={0} end={Math.round((usedData[usedData.length -1].form.Deltid)/(usedData[usedData.length -1].totalAds)*100)} duration={2.5} separator="," />
               { '%' }
             </Typography>
-            <Typography color="textSecondary"> { lastSunday.toDateString() } </Typography>
+            <Typography color="textSecondary"> { lastSunday.toLocaleDateString() } </Typography>
             <Typography variant="body2"> {latestData.location} </Typography>
         </CardContent>
         </Grid>

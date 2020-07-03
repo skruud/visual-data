@@ -144,7 +144,7 @@ const Chart = ( {data: {data}, county, counties, lastSunday, plot, occupation, d
       {
         chartFunction(plot)
       }
-  </div>
+    </div>
   )
 }
 
