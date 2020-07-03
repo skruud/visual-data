@@ -14,7 +14,10 @@ class App extends React.Component {
     plot: 'Linjediagram',
     plots: ['Linjediagram', 'Søylediagram'],
     occupation: 'Alle yrker',
-    occupations: ['Alle yrker', 'Butikkansatt', 'Helsepersonell', 'HR, personal og rekruttering', 'Håndverker', 'IT utvikling', 'Ingeniør', 'Kundeservice', 'Lege', 'Mat og servering', 'Sykepleier', 'Undervisning og pedagogikk', 'Økonomi og regnskap'],
+    occupations: ['Alle yrker', 'Barnehage', 'Butikkansatt', 'Forskning/Stipendiat/Postdoktor', 'Helsepersonell', 
+      'HR, personal og rekruttering', 'Håndverker', 'IT drift og vedlikehold', 'IT utvikling', 'Ingeniør', 
+      'Kontor og administrasjon', 'Kundeservice', 'Lege', 'Logistikk og lager', 'Mat og servering', 
+      'Saksbehandler', 'Salg', 'Sykepleier', 'Transport og sjåfør', 'Undervisning og pedagogikk', 'Økonomi og regnskap'],
     dataValue: 'Annonser',
     dataValues: ['Annonser', 'Annonser per innbygger']
 

@@ -4,9 +4,11 @@ import { Line, Bar } from 'react-chartjs-2';
 import styles from './Chart.module.css';
 
 const Chart = ( {data: {data}, county, counties, lastSunday, plot, occupation, dataValue} ) => {
-  var usedData = data.filter(dataSet => dataSet.location === county);
-  var allLatestData = data.filter(dataSet => dataSet.date.substring(0, 10) ===  lastSunday.toISOString().substring(0, 10)  );
-  allLatestData = allLatestData.filter(dataSet => dataSet.location !== 'Norge'  );
+  var allDatesInData = data.filter(dataset => dataset.location === county);
+  var countiesInOrder = data
+    .filter(dataSet => dataSet.date.substring(0, 10) ===  lastSunday.toISOString().substring(0, 10)  )
+    .filter(dataSet => dataSet.location !== 'Norge'  );
+  
 
   var population = [307231, 371385, 265238, 241235, 693494, 479892, 243311, 468702, 419396, 636531, 1241165];
 
@@ -14,23 +16,19 @@ const Chart = ( {data: {data}, county, counties, lastSunday, plot, occupation, d
     'lime', 'maroon', 'navy', 'olive', 'orange', 'purple', 'red', 
     'silver', 'teal', 'white', 'yellow'];
 
-
-  var testtest = datasetsFunction();
-  console.log('THIS:');
-  console.log(testtest);
-
   const lineChart = (
-    usedData.length
+    allDatesInData.length
       ? (
         <Line 
           data={{
-            labels: usedData.map(({ date }) => date.substring(0, 10)),
+            labels: allDatesInData.map(({ date }) => date.substring(0, 10)),
             datasets: datasetsFunction()
           }
         }
         options={{
           maintainAspectRatio: false,
           responsive: true,
+          title:  { display: true, text: chartTextFunction() },
           scales: {
             xAxes: [{
               type: 'time',
@@ -46,11 +44,11 @@ const Chart = ( {data: {data}, county, counties, lastSunday, plot, occupation, d
 
 
   const barChart = (
-    usedData.length
+    countiesInOrder.length
       ? (
         <Bar 
           data={{
-            labels: allLatestData.map(({ location }) => location),
+            labels: countiesInOrder.map(({ location }) => location),
             datasets: [{
               label: 'Stillingsannonser',
               backgroundColor: 'black',
@@ -61,7 +59,7 @@ const Chart = ( {data: {data}, county, counties, lastSunday, plot, occupation, d
             maintainAspectRatio: false,
             responsive: true,
             legend: { display: false },
-            title:  { display: true, text: 'Antall annonser per 1M innbyggere' },
+            title:  { display: true, text: chartTextFunction() },
             scales: {
               yAxes: [{
                 ticks: {
@@ -133,6 +131,12 @@ const Chart = ( {data: {data}, county, counties, lastSunday, plot, occupation, d
     }
 
     return allLatestAds;
+  }
+
+  function chartTextFunction() {
+    var chartText = 'Antall stillingsannonser';
+    if (dataValue === 'Annonser per innbygger') chartText += ' per million innbyggere';
+    return chartText;
   }
   
   return (
