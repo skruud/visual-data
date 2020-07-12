@@ -73,8 +73,8 @@ class App extends React.Component {
         <CountyPicker handleCountyChange={this.handleCountyChange} counties={counties} /> 
         <Cards data={ {data} } county={county} lastSunday={lastSunday} />
         <div>
-          <PlotPicker handlePlotChange={this.handlePlotChange} plots={plots} />
-          <OccupationPicker handleOccupationChange={this.handleOccupationChange} occupations={occupations} />
+          <PlotPicker handlePlotChange={this.handlePlotChange} plots={plots} /> { }
+          <OccupationPicker handleOccupationChange={this.handleOccupationChange} occupations={occupations} /> { }
           <DataValuePicker handleDataValueChange={this.handleDataValueChange} dataValues={dataValues} />
         </div>
         <Chart data={{data} } county={county} counties={counties} lastSunday={lastSunday} 
